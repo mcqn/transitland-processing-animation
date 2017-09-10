@@ -126,10 +126,24 @@ def add_dates(date, origin_times_clean, destination_times_clean):
 # Output
 def generate_output(operator_onestop_id, origin_datetimes, destination_datetimes, durations, origin_stops, destination_stops, route_ids, lookup_stop_lats, lookup_stop_lons, lookup_vehicle_types):
     """This function generates the output table, to be saved later as a csv."""
-    origin_stop_lats = [lookup_stop_lats[i] for i in origin_stops]
-    origin_stop_lons = [lookup_stop_lons[i] for i in origin_stops]
-    destination_stop_lats = [lookup_stop_lats[i] for i in destination_stops]
-    destination_stop_lons = [lookup_stop_lons[i] for i in destination_stops]
+    origin_stop_lats = []
+    origin_stop_lons = []
+    for i in origin_stops:
+        try:
+            origin_stop_lats.append(lookup_stop_lats[i])
+            origin_stop_lons.append(lookup_stop_lons[i])
+        except:
+            origin_stop_lats.append(0)
+            origin_stop_lons.append(0)
+    destination_stop_lats = []
+    destination_stop_lons = []
+    for i in destination_stops:
+        try:
+            destination_stop_lats.append(lookup_stop_lats[i])
+            destination_stop_lons.append(lookup_stop_lons[i])
+        except:
+            destination_stop_lats.append(0)
+            destination_stop_lons.append(0)
     vehicle_types = []
     for i in route_ids:
         try:
