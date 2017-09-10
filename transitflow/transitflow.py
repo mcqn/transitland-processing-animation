@@ -40,7 +40,14 @@ def get_vehicle_types(operator_onestop_id):
 # Get stops
 def get_stop_lat_lons(operator_onestop_id):
     """Get stop lats and stop lons for a particular operator."""
-    stops_request = TLAPI.request('stops', served_by=operator_onestop_id, per_page=PER_PAGE)
+    # Workaround to limit request size for Northern Rail as it fails lots otherwise
+    stops_request = {}
+    if operator_onestop_id == "o-gc-northernrail":
+        stops_request = TLAPI.request('stops', served_by=operator_onestop_id, per_page=50)
+    elif operator_onestop_id == "o-gc-eastmidlandstrains":
+        stops_request = TLAPI.request('stops', served_by=operator_onestop_id, per_page=150)
+    else:
+        stops_request = TLAPI.request('stops', served_by=operator_onestop_id, per_page=PER_PAGE)
     lookup_stop_lats = {}
     lookup_stop_lons = {}
     for stop in stops_request:
